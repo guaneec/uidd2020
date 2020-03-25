@@ -1,42 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>covid-19</title>
     <style>
-        body, html {
-            margin: 0;
-        }
-        * {
-            box-sizing: border-box;
-        }
-        .full {
-            height: 100vh;
-            border: 1px solid green;
-        }
-        
-        .page1 {
-            background-color: rgb(229, 233, 255);
-        }
+      body,
+      html {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      .full {
+        height: 100vh;
+        position: relative;
+        background-color: rgb(229, 233, 255);
+      }
 
-        .cover {
-            background-color: rgb(226, 241, 254);
-            position: absolute;
-            left: 20px;
-            right: 20px;
-            top: 30px;
-            bottom: 30px;
-        }
-        .title {
-            
-        }
+      .page1 {
+        background-color: rgb(229, 233, 255);
+      }
+
+      .cover {
+        background-color: rgb(226, 241, 254);
+        position: absolute;
+        left: 100px;
+        right: 100px;
+        top: 100px;
+        bottom: 100px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+      }
+      .cover-top {
+        flex-grow: 1;
+        position: relative;
+      }
+      .cover-image {
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 30px;
+        background-image: url("static/img/cover_1.jpg");
+        background-size: cover;
+        background-position: center;
+        border-radius: 20px;
+      }
+      .cover-bottom {
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-bottom: 10px;
+        border-left: 5px solid #378b8f;
+        padding: 30px 20px;
+      }
+      .h1 {
+        color: #378b8f;
+        font-size: 20px;
+        margin-bottom: 0.7em;
+      }
+      .p {
+        color: #9ed3d5;
+      }
+      .abs {
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+      .stats {
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 30px;
+        background-color: #e7e7ef;
+        border-radius: 20px;
+        display: flex;
+        padding: 30px;
+      }
+      .stats-left {
+        flex: 3;
+      }
+
+      .stats-right {
+        position: relative;
+        flex: 2;
+      }
+
+      .stats-num-ct {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .stats-num {
+        color: #159f9f;
+      }
+
+      .stats-num-h {
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+
+      .stats-num-tile {
+        font-size: 60px;
+        padding: 20px 15px;
+        background-color: #e3ecf7;
+        box-shadow: #0003 6px 5px 10px 0px;
+        border-radius: 10px;
+        width: 4em;
+      }
+      #map-ct {
+        background-color: #e3ecf7;
+        border-radius: 10px;
+        margin: 10px;
+        margin-left: 40px;;
+      }
+      #map-wp {
+        border-radius: 10px;
+        margin: 30px;
+      }
+      #map {
+        height: 100%;
+        border-radius: 10px;
+      }
+
+      .shadow {
+        box-shadow: #0003 6px 5px 10px 0px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="full page1">
-        <div class="cover"></div>
+      <div class="cover shadow">
+        <div class="cover-top">
+          <div class="cover-image"></div>
+        </div>
+        <div class="cover-bottom">
+          <div class="h1">Coronavirus disease 2019 (COVID-19)</div>
+          <div class="p">
+            On this website you can find information and guidance current
+            outbreak of coronavirus disease (COVID-19)
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="full"></div>
-</body>
+    <div class="full">
+      <div class="stats shadow">
+        <div class="stats-left">
+          <div class="stats-num-ct">
+            <div class="stats-num">
+              <div class="stats-num-h">Confirmed Cases</div>
+              <div class="stats-num-tile">88</div>
+            </div>
+            <div class="stats-num">
+              <div class="stats-num-h">Death Cases</div>
+              <div class="stats-num-tile">88</div>
+            </div>
+            <div class="stats-num">
+              <div class="stats-num-h">Recovered Cases</div>
+              <div class="stats-num-tile">88</div>
+            </div>
+          </div>
+          <canvas id="graph"></canvas>
+        </div>
+        <div class="stats-right">
+          <div class="abs" id="map-ct"><div class="abs" id="map-wp"><div id="map"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-ct">
+      <div class="news-block">
+        div.news
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script>
+      const data = {
+        "01-22": 1,
+        "01-23": 0,
+        "01-24": 2,
+        "01-25": 0,
+        "01-26": 1,
+        "01-27": 1,
+        "01-28": 3,
+        "01-29": 0,
+        "01-30": 1,
+        "01-31": 1,
+        "02-01": 0,
+        "02-02": 0,
+        "02-03": 0,
+        "02-04": 1,
+        "02-05": 0,
+        "02-06": 5,
+        "02-07": 0,
+        "02-08": 1,
+        "02-09": 1,
+        "02-10": 0,
+        "02-11": 0,
+        "02-12": 0,
+        "02-13": 0,
+        "02-14": 0,
+        "02-15": 0,
+        "02-16": 2,
+        "02-17": 2,
+        "02-18": 0,
+        "02-19": 1,
+        "02-20": 1,
+        "02-21": 2,
+        "02-22": 0,
+        "02-23": 2,
+        "02-24": 2,
+        "02-25": 1,
+        "02-26": 1,
+        "02-27": 0,
+        "02-28": 2,
+        "02-29": 5,
+        "03-01": 1,
+        "03-02": 1,
+        "03-03": 1,
+        "03-04": 0,
+        "03-05": 2,
+        "03-06": 1,
+        "03-07": 0,
+        "03-08": 0,
+        "03-09": 0,
+        "03-10": 2,
+        "03-11": 1,
+        "03-12": 1,
+        "03-13": 1,
+        "03-14": 3,
+        "03-15": 6,
+        "03-16": 8,
+        "03-17": 10,
+        "03-18": 23,
+        "03-19": 8,
+        "03-20": 27,
+        "03-21": 18,
+        "03-22": 16,
+        "03-23": 26,
+        "03-24": 20
+      };
+      const dataxy = [];
+      Object.keys(data).forEach(k => {
+        dataxy.push({
+          x: new Date(`2020-${k}`),
+          y: data[k]
+        });
+      });
+
+      const ctx = document.getElementById("graph").getContext("2d");
+      const chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: "line",
+
+        // The data for our dataset
+        data: {
+          datasets: [
+            {
+              fill: false,
+              borderColor: "#159f9f",
+              data: dataxy,
+              label: "Confirmed Cases"
+            }
+          ]
+        },
+
+        // Configuration options go here
+        options: {
+          responsive: true,
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [
+              {
+                type: "time",
+                time: {
+                  unit: "day"
+                }
+              }
+            ]
+          }
+        }
+      });
+
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: 23.687, lng: 120.929 },
+          zoom: 8
+        });
+        window.map = map;
+      }
+    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8cfzlOaOksy1n-gCNalnyCCGyhNjRoCY&callback=initMap"
+    ></script>
+  </body>
 </html>
