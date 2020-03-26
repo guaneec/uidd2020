@@ -135,6 +135,64 @@
       .shadow {
         box-shadow: #0003 6px 5px 10px 0px;
       }
+
+      .news-ct {
+        background-color: rgb(229, 233, 255);
+        padding: 100px;
+        padding-right: 0;
+        display: flex;
+        overflow-y: auto;
+      }
+
+      .news {
+        width: 400px;
+        height: 300px;
+        background-color: rgb(229, 233, 255);
+        padding: 15px;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        margin-right: 100px;
+
+      }
+
+      .news-inner {
+        transition: all 200ms ease-out;
+        border-radius: 10px;
+        background-size: cover;
+        background-position: center;
+        height: 100%;
+      }
+
+      #news1 {
+        background-image: url("static/img/p1.jpg");
+      }
+      #news2 {
+        background-image: url("static/img/p2.jpg");
+      }
+      #news3 {
+        background-image: url("static/img/p3.jpg");
+      }
+      #news4 {
+        background-image: url("static/img/p4.jpg");
+      }
+
+      .news-text  {
+        transition: all 200ms ease-out;
+        margin: 40px;
+        color: white;
+        font-size: 32px;
+        opacity: 0;
+      }
+
+      .news:hover>.news-inner {
+        filter: blur(5px);
+      }
+
+      .news:hover>.news-text {
+        opacity: 100%;
+      }
+
     </style>
   </head>
   <body>
@@ -178,7 +236,28 @@
     </div>
     <div class="news-ct">
       <div class="news-block">
-        div.news
+        <div class="news shadow">
+          <div class="news-inner" id="news1"></div>
+          <div class="news-text abs">Lorem</div>
+        </div>
+      </div>
+      <div class="news-block">
+        <div class="news shadow">
+          <div class="news-inner" id="news2"></div>
+          <div class="news-text abs">Lorem Ipsum</div>
+        </div>
+      </div>
+      <div class="news-block">
+        <div class="news shadow">
+          <div class="news-inner" id="news3"></div>
+          <div class="news-text abs">Lorem Ipsum</div>
+        </div>
+      </div>
+      <div class="news-block">
+        <div class="news shadow">
+          <div class="news-inner" id="news4"></div>
+          <div class="news-text abs">Lorem Ipsum</div>
+        </div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
